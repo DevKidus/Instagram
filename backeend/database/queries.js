@@ -55,4 +55,17 @@ const signup = (
   });
 };
 
-module.exports = { isEmailExist, isUsernameExist, signup };
+const login = ({ email, password }) => {
+  return new Promise((resolve, reject) => {
+    const query = `
+      SELECT * FROM users
+      WHERE email=? AND password=?
+    `;
+
+    con.query(query, [email, password], (err, result, fields) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
+module.exports = { isEmailExist, isUsernameExist, signup, login };

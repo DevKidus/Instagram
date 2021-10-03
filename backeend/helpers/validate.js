@@ -16,9 +16,22 @@ const validateSignup = ({ email, firstname, lastname, password }) => {
   return errors;
 };
 
+const validateLogin = ({ email, password }) => {
+  const errors = [];
+
+  if (!email) errors.push({ email: "Email cannot be empty" });
+  if (!password) errors.push({ password: "Password cannot be empty" });
+
+  if (email && !isValidEmail(email)) errors.push({ email: "Invalid Email" });
+  if (password && password.length < 6)
+    errors.push({ password: "Password can't be less than 6 characters" });
+
+  return errors;
+};
+
 function isValidEmail(email) {
   const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
   return email.match(pattern);
 }
 
-module.exports = { validateSignup };
+module.exports = { validateSignup, validateLogin };

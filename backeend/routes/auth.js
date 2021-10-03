@@ -1,9 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { isEmailExist, signup } = require("../database/queries");
+const { isEmailExist, signup, login } = require("../database/queries");
 const { generateToken } = require("../helpers/token");
 const { rand, genUsername } = require("../helpers/utilities");
-const { validateSignup } = require("../helpers/validate");
+const { validateSignup, validateLogin } = require("../helpers/validate");
 
 const auth = express.Router();
 
@@ -37,8 +37,21 @@ auth.post("/signup", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-auth.post("/login", (req, res) => {
-  res.send("login");
+auth.post("/login", async (req, res) => {
+  const errors = validateLogin(req.body);
+
+  if (errors.length > 0) return res.json(errors);
+
+  const response = await login(req.body);
+
+  if (response.length > 0) {
+    const token = generateToken({ unique_id: response[0].unique_id });
+    res.setHeader("Set-Cookie", `jwt=${token}`);
+
+    return res.status(200).json({ message: "login succesfully" });
+  }
+
+  return res.json({ message: "user not found!!!" });
 });
 
 module.exports = auth;
