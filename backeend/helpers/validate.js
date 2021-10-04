@@ -29,9 +29,31 @@ const validateLogin = ({ email, password }) => {
   return errors;
 };
 
+const validateNewPost = ({ content, image }) => {
+  const errors = [];
+
+  if (!content && !image) errors.push({ value: "no data" });
+
+  if (image && !isValidImage(image))
+    errors.push({ image: "Invalid extension of an image" });
+
+  return errors;
+};
+
 function isValidEmail(email) {
   const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
   return email.match(pattern);
 }
 
-module.exports = { validateSignup, validateLogin };
+function isValidImage(image) {
+  const exts = ["png", "jpeg", "jpg"];
+
+  let isValid = false;
+
+  exts.forEach((ext) => {
+    if (image.endsWith(ext)) isValid = true;
+  });
+  return isValid;
+}
+
+module.exports = { validateSignup, validateLogin, validateNewPost };

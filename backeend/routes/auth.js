@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { isEmailExist, signup, login } = require("../database/queries");
+const { isEmailExist } = require("../database/user");
+const { signup, login } = require("../database/auth");
 const { generateToken } = require("../helpers/token");
 const { rand, genUsername } = require("../helpers/utilities");
 const { validateSignup, validateLogin } = require("../helpers/validate");

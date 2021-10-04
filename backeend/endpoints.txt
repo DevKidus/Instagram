@@ -1,0 +1,17 @@
+ = http://localhost:port
+
+ - /auth 
+   - /signup
+   - /login
+ 
+ - /user
+   - /profile
+   - /follow
+   - /iFollow
+   - /followMe
+
+ - /post
+   - /create
+   - /newsfeed
+
+ - 

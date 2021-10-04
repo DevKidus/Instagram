@@ -1,4 +1,4 @@
-const { isUsernameExist, isEmailExist } = require("../database/queries");
+const { isUsernameExist } = require("../database/user");
 
 const rand = (length = 30) => {
   const alphaNum =
